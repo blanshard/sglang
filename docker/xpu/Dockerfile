@@ -91,6 +91,7 @@ COPY --from=build /build/oneCCL/build/src/libccl.so.1.0 /opt/intel/1ccl-wks/lib/
 COPY --from=build /build/oneCCL/build/src/libccl.so.1 /opt/intel/1ccl-wks/lib/
 COPY --from=build /build/oneCCL/build/src/libccl.so /opt/intel/1ccl-wks/lib/
 COPY ./vllm_for_multi_arc.patch /llm/
+COPY ./vllm_custom_op.patch /llm/
 COPY ./setvars.sh /opt/intel/1ccl-wks/
 
 ARG http_proxy
@@ -173,10 +174,12 @@ RUN set -eux && \
     git clone -b v0.6.6.post1 https://github.com/vllm-project/vllm /llm/vllm && \
     cd /llm/vllm && \
     git apply /llm/vllm_for_multi_arc.patch && \
+    git apply /llm/vllm_custom_op.patch && \
     pip install setuptools-scm && \
     pip install --upgrade cmake && \
     VLLM_TARGET_DEVICE=xpu pip install --no-build-isolation -v /llm/vllm && \
     rm -rf /llm/vllm_for_multi_arc.patch && \
+    rm -rf /llm/vllm_custom_op.patch && \    
     pip install mpi4py fastapi uvicorn openai && \
     pip install ray && \
 
