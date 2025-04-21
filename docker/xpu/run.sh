@@ -5,6 +5,7 @@ sudo docker run --rm \
         --privileged \
         --device=/dev/dri \
         -v /path/to/models:/llm/models \
+        -v /home/wfang/workspace:/workspace \
         -e http_proxy=$http_proxy \
         -e https_proxy=$https_proxy \
         -e no_proxy=localhost,127.0.0.1 \

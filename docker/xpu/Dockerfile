@@ -178,8 +178,17 @@ RUN set -eux && \
     VLLM_TARGET_DEVICE=xpu pip install --no-build-isolation -v /llm/vllm && \
     rm -rf /llm/vllm_for_multi_arc.patch && \
     pip install mpi4py fastapi uvicorn openai && \
-    pip install ray
+    pip install ray && \
 
-    
+    # Update with latest torch and xpu support
+    pip install --pre torch torchvision torchaudio --index-url https://download.pytorch.org/whl/nightly/xpu
+
+    # Install SGLang
+    #git clone -b v0.4.5.post1 https://github.com/sgl-project/sglang.git /llm/sglang && \
+    #cd /llm/sglang && \
+    #pip install --upgrade pip && \
+    #pip install -e "python[all]"
+
+
 WORKDIR /llm/
 ENTRYPOINT ["bash", "/llm/start-vllm-service.sh"]

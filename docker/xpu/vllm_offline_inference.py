@@ -45,7 +45,7 @@ prompts = [
 sampling_params = SamplingParams(temperature=0.8, top_p=0.95)
 
 # Create an LLM.
-llm = LLM(model="/llm/models/",
+llm = LLM(model="meta-llama/Llama-3.2-1B-Instruct",
           device="xpu",
           dtype="float16",
           enforce_eager=True,

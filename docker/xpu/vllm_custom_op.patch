@@ -1,0 +1,31 @@
+diff --git a/vllm/model_executor/custom_op.py b/vllm/model_executor/custom_op.py
+index fddc8bad0..5410d7f06 100644
+--- a/vllm/model_executor/custom_op.py
++++ b/vllm/model_executor/custom_op.py
+@@ -61,16 +61,16 @@ class CustomOp(nn.Module):
+     def dispatch_forward(self):
+         # NOTE(woosuk): Here we assume that vLLM was built for only one
+         # specific backend. Currently, we do not support dynamic dispatching.
+-        compilation_config = get_current_vllm_config().compilation_config
+-        enabled = self.enabled()
+-        if enabled:
+-            compilation_config.enabled_custom_ops.update([self.__class__.name])
+-        else:
+-            compilation_config.disabled_custom_ops.update(
+-                [self.__class__.name])
+-
+-        if not enabled:
+-            return self.forward_native
++        #compilation_config = get_current_vllm_config().compilation_config
++        #enabled = self.enabled()
++        #if enabled:
++        #    compilation_config.enabled_custom_ops.update([self.__class__.name])
++        #else:
++        #    compilation_config.disabled_custom_ops.update(
++        #        [self.__class__.name])
++
++        #if not enabled:
++        #    return self.forward_native
+ 
+         if current_platform.is_rocm():
+             return self.forward_hip

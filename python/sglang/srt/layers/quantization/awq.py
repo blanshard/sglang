@@ -3,7 +3,15 @@ import logging
 from typing import Any, Dict, List, Optional
 
 import torch
-from sgl_kernel import awq_dequantize
+from sglang.srt.utils import is_cuda, is_hip
+
+_is_hip = is_hip()
+_is_cuda = is_cuda()
+
+if _is_cuda:
+    from sgl_kernel import awq_dequantize
+else:
+    from vllm import _custom_ops as ops
 
 from sglang.srt.layers.linear import (
     LinearBase,

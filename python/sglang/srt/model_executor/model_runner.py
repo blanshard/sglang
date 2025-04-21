@@ -23,6 +23,9 @@ from dataclasses import dataclass
 from typing import List, Optional, Tuple, Union
 
 import torch
+
+import oneccl_bindings_for_pytorch
+
 import torch.distributed as dist
 
 from sglang.srt.configs.device_config import DeviceConfig
@@ -332,15 +335,15 @@ class ModelRunner:
         if self.device == "cuda":
             backend = "nccl"
         elif self.device == "xpu":
-            backend = "xccl"
+            backend = "ccl"
         elif self.device == "hpu":
             backend = "hccl"
         elif self.device == "cpu":
             backend = "gloo"
 
         before_avail_memory = get_available_gpu_memory(self.device, self.gpu_id)
-        if not self.server_args.enable_p2p_check:
-            monkey_patch_p2p_access_check()
+        #if not self.server_args.enable_p2p_check:
+        #    monkey_patch_p2p_access_check()
 
         if self.server_args.dist_init_addr:
             dist_init_method = f"tcp://{self.server_args.dist_init_addr}"
